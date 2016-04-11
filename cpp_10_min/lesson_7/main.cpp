@@ -1,39 +1,73 @@
 #include <iostream>
 
-using namespace std;
+using namespace std; 
+
+// инициализация для исключений
+void Initialize(void)
+{
+	cin.exceptions(cin.failbit);
+}
+
+// Взять делимое
+float getDividend(void)
+{
+	float Dividend = 1;
+	cout << "Enter Dividend: ";
+	cin >> Dividend;
+	return Dividend;
+}
+
+// Взять делитель
+float getDivisor(void)
+{
+	float Divisor = 1;
+	cout << "Enter Divisor: ";
+	cin >> Divisor;
+	return Divisor;
+}
+
+// Выполнить операцию деления
+float Divide(const float theDividend, const float theDivisor)
+{
+	return (theDividend / theDivisor);
+}
+
+// Обработка исключения
+int HandleNotANumberError(void)
+{
+	cerr << "Error!" << endl;
+	cin.clear();
+	char ch[5];
+	cin >> ch;
+	return 1; // произошла ошибка
+}
+
+// Задержка перед выходом
+void PauseForUser(void)
+{
+	char StopChar;
+	cout << "Press any key and \"Enter\" :";
+	cin >> StopChar;
+}
 
 int main(int argc, char *argv[])
 {
-    // Подготовка к вызову исключения в случае ошибочных данных
-    cin.exceptions(cin.failbit);
-    
-    int returnCode = 0;
+    Initialize();
+	
+	int returnCode = 0;
     
     try 
     {
-        float Divd = 0;
-        cout << "Enter Dividend: ";
-        cin >> Divd;
-        
-        float Divr = 1;
-        cout << "Enter Divisor: ";
-        cin >> Divr;
-        
-        float Res = Divd/Divr;
-        cout << Res << endl;
+        float Dividend = getDividend();
+        float Divisor  = getDivisor();
+        cout << Divide(Dividend, Divisor) << endl;
     }
     catch (...) // обработка исключений
     {
-        cerr << "Input error" << endl;
-        cin.clear();    // Очистить биты ошибки входного потока
-        char badInp[5]; // массив символов в 5 штук
-        cin >> badInp;  // Сожрать ошибочные символы, иначе они не исчезнут
-        returnCode = 1;
+        returnCode = HandleNotANumberError();
     }
 
-    char stopChar;
-    cout << "Press any key and \"Enter\" to continue" << endl;
-    cin >> stopChar;
+    PauseForUser();
     
     return returnCode;
 }
